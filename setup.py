@@ -1,13 +1,13 @@
 import os
 
-from pip.download import PipSession
-from pip.req import parse_requirements
+from pip._internal.network.session import PipSession
+from pip._internal.req import parse_requirements
 from setuptools import find_packages, setup
 
 
 def read_requirements(file_name):
     return [
-        str(requirement.req) for requirement in
+        str(requirement) for requirement in
         parse_requirements(file_name, session=PipSession())
     ]
 
@@ -28,8 +28,12 @@ setup(
             'celery-exporter=celery_prometheus_exporter.main:main'
         ]
     },
-    install_requires=read_requirements('requirements/requirements.txt'),
-    extras_require={
-        'develop': read_requirements('requirements/requirements-develop.txt'),
-    }
+    install_requires=[
+        'flake8-print==3.0.1',
+        'flake8==3.5.0',
+        'pytest-cov==2.4.0',
+        'pytest-mock==1.5.0',
+        'pytest==3.4.2',
+        'tox==2.9.1',
+    ],
 )
